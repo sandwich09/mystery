@@ -225,7 +225,7 @@ const uiText = {
     nearFuture: "อนาคตอันใกล้",
     zoomCard: "ขยายไพ่",
     closeCard: "ปิดภาพไพ่",
-    aiLoadingTitle: "กำลังรอคำตอบจาก AI",
+    aiLoadingTitle: "กำลังรอคำตอบจากผู้มีอำนาจเหนือสายหมอก",
     aiLoadingCopy: (cardName) => `ผู้ทำนายกำลังเรียบเรียงคำทำนายของ ${cardName}`,
     donateTitle: "Support",
     donateSubtitle: "PayPal / True Wallet",
