@@ -1,6 +1,6 @@
 # Tarot Image Prompt Pack
 
-Use this pack to generate a consistent 78-card tarot deck for Lord of Mystery Tarot.
+Use this pack to generate a consistent 78-card tarot deck for Veilbound Arcana.
 The direction is dark Victorian occult mystery: fog, gaslamps, secret societies, ritual symbols, brass, obsidian, moonlight, gothic architecture, and painterly cinematic detail. Do not copy any existing novel, character, costume, scene, logo, or named franchise.
 
 ## Master Style Prompt
@@ -18,11 +18,11 @@ modern clothing, cute cartoon, chibi, sci-fi spaceship, neon cyberpunk, low deta
 ## Naming
 
 ```text
-assets/cards/major/00-the-fool.webp
-assets/cards/major/01-the-magician.webp
-assets/cards/minor/cups/ace-of-cups.webp
-assets/cards/minor/wands/two-of-wands.webp
-assets/cards/back.webp
+public/assets/cards/major/00-the-fool.webp
+public/assets/cards/major/01-the-magician.webp
+public/assets/cards/minor/cups/ace-of-cups.webp
+public/assets/cards/minor/wands/two-of-wands.webp
+public/assets/cards/back.webp
 ```
 
 ## Major Arcana
