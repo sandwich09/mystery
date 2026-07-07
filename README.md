@@ -23,6 +23,12 @@ npm run dev
 
 จากนั้นเปิด `http://localhost:3000`
 
+## SEO / Search
+
+- ตั้งค่า `NEXT_PUBLIC_SITE_URL` เป็นโดเมนจริงตอน deploy เช่น `https://your-domain.com`
+- หน้าเว็บมี title/description, canonical URL, Open Graph/Twitter metadata, JSON-LD structured data, `robots.txt` และ `sitemap.xml`
+- ถ้าเปลี่ยนโดเมนหรือชื่อเว็บ ให้แก้ค่า SEO กลางที่ `app/lib/site.js`
+
 ## โฮสต์ฟรีที่เหมาะ
 
 1. Cloudflare Pages
