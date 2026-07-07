@@ -215,6 +215,22 @@ button:hover {
     repeating-linear-gradient(45deg, rgba(216, 181, 104, 0.08) 0 1px, transparent 1px 18px);
   box-shadow: 0 30px 70px var(--shadow);
   animation: floatCard 5s ease-in-out infinite;
+  overflow: hidden;
+  position: relative;
+}
+
+.deck-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.deck-art + .sigil,
+.deck-art ~ .deck-lines,
+.deck-art ~ p {
+  opacity: 0;
 }
 
 .sigil {
@@ -275,6 +291,29 @@ button:hover {
   box-shadow: inset 0 0 0 8px rgba(8, 7, 13, 0.58);
   transform-origin: center;
   animation: flipIn 900ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  overflow: hidden;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.card-face.has-art::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.28) 64%, rgba(0, 0, 0, 0.78));
+}
+
+.card-face.has-art .arcana-symbol {
+  opacity: 0;
+}
+
+.card-face.has-art .card-number,
+.card-face.has-art .card-title {
+  position: relative;
+  z-index: 1;
+  color: var(--ink);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.88);
 }
 
 .arcana-symbol {
