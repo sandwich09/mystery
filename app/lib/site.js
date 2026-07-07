@@ -1,4 +1,5 @@
-const fallbackSiteUrl = "http://localhost:3000";
+const canonicalSiteUrl = "https://tarot.mangmeeplus.com";
+const fallbackSiteUrl = canonicalSiteUrl;
 
 function normalizeSiteUrl(value) {
   try {

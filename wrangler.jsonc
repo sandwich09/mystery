@@ -4,6 +4,17 @@
   "name": "mystery",
   "compatibility_date": "2026-07-07",
   "compatibility_flags": ["nodejs_compat"],
+  "routes": [
+    {
+      "pattern": "tarot.mangmeeplus.com",
+      "zone_name": "mangmeeplus.com",
+      "custom_domain": true
+    }
+  ],
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://tarot.mangmeeplus.com",
+    "SITE_URL": "https://tarot.mangmeeplus.com"
+  },
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
