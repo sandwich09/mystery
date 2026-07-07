@@ -315,6 +315,7 @@ button:hover {
   border-radius: 50%;
   background: rgba(8, 7, 13, 0.78);
   box-shadow: 0 0 10px rgba(216, 181, 104, 0.12);
+  pointer-events: none;
 }
 
 .monocle-button:hover {

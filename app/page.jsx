@@ -65,23 +65,6 @@ const tarotDeck = [
   };
 });
 
-const donateMethods = [
-  {
-    key: "paypal",
-    title: "PayPal",
-    note: "สำหรับผู้ใช้ต่างประเทศและผู้ที่สะดวกจ่ายผ่าน PayPal",
-    image: "/assets/donate/paypal-qr.png",
-    alt: "PayPal QR code for donation to Thawatchai Phuchana"
-  },
-  {
-    key: "truemoney",
-    title: "TrueMoney / True Wallet",
-    note: "สำหรับผู้ใช้ในไทย สแกน QR ผ่าน TrueMoney หรือแอปธนาคารที่รองรับ PromptPay",
-    image: "/assets/donate/truemoney-qr.png",
-    alt: "TrueMoney PromptPay QR code for donation"
-  }
-];
-
 const donationJokes = [
   {
     th: "อยากโดเนทหรอ โดนหลอกแล้ว ไพ่ใบนี้ชื่อ The Fool และมันยิ้มเหมือนรู้จักคุณดี",
@@ -246,11 +229,7 @@ const uiText = {
     aiLoadingCopy: (cardName) => `ผู้ทำนายกำลังเรียบเรียงคำทำนายของ ${cardName}`,
     donateTitle: "Support",
     donateSubtitle: "PayPal / True Wallet",
-    donateCopy: "ถ้าคำทำนายนี้ช่วยให้วันของคุณเบาขึ้น สนับสนุนค่า server และงานภาพไพ่ได้ตามสะดวก",
     donateJokeButton: "สุ่มมุก Support",
-    supportSecretLabel: "เปิด Support QR ที่แท้จริงจากแว่นตาขาเดียวของอมุนด์",
-    supportModalTitle: "Support QR ที่แท้จริง",
-    supportModalCopy: "มุกเมื่อกี้คือบททดสอบจากหมอก ส่วน QR นี้ของจริง ถ้าอยากสนับสนุนค่า server และงานภาพไพ่ สแกนได้ตามสะดวก",
     ritualFirst: (seeker) => [`${seeker} วางชื่อไว้หน้าโต๊ะหิน`, "ผู้ทำนายสับไพ่ผ่านหมอก", "สัญลักษณ์หนึ่งใบกำลังตอบรับ"],
     ritualSecond: () => ["หมอกเดิมเปิดทางต่อ", "ไพ่ใบที่สองขยับใต้แสงทอง", "อนาคตอันใกล้กำลังพลิกหน้า"],
     story: (cardName, essence, seeker, sequence, cardStory) => {
@@ -280,11 +259,7 @@ const uiText = {
     aiLoadingCopy: (cardName) => `The oracle is shaping the reading for ${cardName}`,
     donateTitle: "Support",
     donateSubtitle: "PayPal / True Wallet",
-    donateCopy: "If this reading made your day a little lighter, you can support server costs and card artwork here.",
     donateJokeButton: "Random support joke",
-    supportSecretLabel: "Open the real support QR from Amund's monocle",
-    supportModalTitle: "Real Support QR",
-    supportModalCopy: "The joke was a trial from the mist. This QR is real. If you want to support server costs and card artwork, scan whichever method fits.",
     ritualFirst: (seeker) => [`${seeker} places a name before the stone table`, "The oracle shuffles through the mist", "One symbol is answering the call"],
     ritualSecond: () => ["The old mist opens another path", "A second card moves under golden light", "The near future is turning its face"],
     story: (cardName, essence, seeker, sequence) => {
@@ -314,11 +289,7 @@ const uiText = {
     aiLoadingCopy: (cardName) => `占卜者正在为 ${cardName} 组织讯息`,
     donateTitle: "Support",
     donateSubtitle: "PayPal / True Wallet",
-    donateCopy: "如果这次占卜让你的心轻了一点，可以在这里支持服务器费用和牌面创作。",
     donateJokeButton: "随机支持笑话",
-    supportSecretLabel: "从阿蒙德的单片眼镜打开真正的支持二维码",
-    supportModalTitle: "真正的支持二维码",
-    supportModalCopy: "刚才的笑话是迷雾的考验。这里的二维码是真的。如果你想支持服务器费用和牌面创作，可以选择方便的方式扫码。",
     ritualFirst: (seeker) => [`${seeker} 将名字放在石桌前`, "占卜者在迷雾中洗牌", "一枚符号正在回应"],
     ritualSecond: () => ["旧日迷雾打开新的道路", "第二张牌在金色微光中移动", "近期未来正在翻面"],
     story: (cardName, essence, seeker, sequence) => {
@@ -378,21 +349,6 @@ const localizedCardData = {
     "19": { name: "太阳", essence: "清晰" },
     "20": { name: "审判", essence: "觉醒" },
     "21": { name: "世界", essence: "完成" }
-  }
-};
-
-const localizedDonateNotes = {
-  th: {
-    paypal: "สำหรับผู้ใช้ต่างประเทศและผู้ที่สะดวกจ่ายผ่าน PayPal",
-    truemoney: "สำหรับผู้ใช้ในไทย สแกน QR ผ่าน TrueMoney หรือแอปธนาคารที่รองรับ PromptPay"
-  },
-  en: {
-    paypal: "For international supporters and anyone who prefers PayPal.",
-    truemoney: "For Thailand-based supporters. Scan with TrueMoney or PromptPay-supported banking apps."
-  },
-  zh: {
-    paypal: "适合海外用户，或偏好使用 PayPal 的支持者。",
-    truemoney: "适合泰国用户，可使用 TrueMoney 或支持 PromptPay 的银行应用扫码。"
   }
 };
 
@@ -533,7 +489,7 @@ function TarotCard({ card, language, onZoom }) {
   );
 }
 
-function DonatePanel({ language, onOpenSupport }) {
+function DonatePanel({ language }) {
   const [jokeIndex, setJokeIndex] = useState(null);
   const text = uiText[language];
   const currentJoke = jokeIndex === null ? "" : donationJokes[jokeIndex][language];
@@ -551,14 +507,11 @@ function DonatePanel({ language, onOpenSupport }) {
         {currentJoke && <strong className="donate-joke" aria-live="polite">{currentJoke}</strong>}
       </button>
       {currentJoke && (
-        <button
+        <span
           className="monocle-button"
-          type="button"
-          aria-label={text.supportSecretLabel}
-          title={text.supportSecretLabel}
-          onClick={onOpenSupport}
+          aria-hidden="true"
         >
-          <span className="amund-icon" aria-hidden="true">
+          <span className="amund-icon">
             <span className="amund-hat"></span>
             <span className="crystal-monocle">
               <span className="monocle-chain"></span>
@@ -566,37 +519,9 @@ function DonatePanel({ language, onOpenSupport }) {
               <span className="monocle-stem"></span>
             </span>
           </span>
-        </button>
+        </span>
       )}
     </section>
-  );
-}
-
-function SupportModal({ language, onClose }) {
-  const text = uiText[language];
-  const donateNotes = localizedDonateNotes[language];
-
-  return (
-    <div id="support-modal" className="card-modal support-modal" aria-labelledby="support-modal-title" aria-modal="true" role="dialog">
-      <button className="modal-backdrop" type="button" aria-label={text.closeCard} onClick={onClose}></button>
-      <div className="modal-panel support-modal-panel">
-        <button className="modal-close" type="button" aria-label={text.closeCard} onClick={onClose}>x</button>
-        <p className="reading-label">{text.donateTitle}</p>
-        <h2 id="support-modal-title">{text.supportModalTitle}</h2>
-        <p className="support-modal-copy">{text.supportModalCopy}</p>
-        <div className="support-methods">
-          {donateMethods.map((method) => (
-            <article className="support-method" key={method.key}>
-              <div>
-                <strong>{method.title}</strong>
-                <p>{donateNotes[method.key] ?? method.note}</p>
-              </div>
-              <img src={method.image} alt={method.alt} />
-            </article>
-          ))}
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -634,7 +559,6 @@ export default function Home() {
   const [modalCard, setModalCard] = useState(null);
   const [modalImage, setModalImage] = useState("");
   const [modalLanguage, setModalLanguage] = useState("th");
-  const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
   const ritualTimer = useRef();
   const readingListRef = useRef(null);
 
@@ -706,10 +630,6 @@ export default function Home() {
     setModalLanguage(language);
   };
 
-  const openSupportModal = () => setIsSupportModalOpen(true);
-
-  const closeSupportModal = () => setIsSupportModalOpen(false);
-
   const modalAccent = useMemo(() => {
     if (!modalCard) return undefined;
     return `var(--arcana-${Number(modalCard.number) % 6})`;
@@ -733,18 +653,17 @@ export default function Home() {
   }, [language, ritual.active, text.deckStatus, text.htmlLang]);
 
   useEffect(() => {
-    document.body.classList.toggle("modal-open", Boolean(modalCard || isSupportModalOpen));
+    document.body.classList.toggle("modal-open", Boolean(modalCard));
 
     return () => {
       document.body.classList.remove("modal-open");
     };
-  }, [modalCard, isSupportModalOpen]);
+  }, [modalCard]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
         closeCardModal();
-        closeSupportModal();
       }
     };
     const preventProtectedActions = (event) => {
@@ -846,7 +765,7 @@ export default function Home() {
             </div>
           )}
 
-          <DonatePanel language={language} onOpenSupport={openSupportModal} />
+          <DonatePanel language={language} />
           <div className="panel-footer">
             <span>Veilbound Arcana</span>
             <small>For reflection and entertainment.</small>
@@ -918,10 +837,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-      )}
-
-      {isSupportModalOpen && (
-        <SupportModal language={language} onClose={closeSupportModal} />
       )}
     </>
   );
