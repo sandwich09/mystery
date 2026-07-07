@@ -226,7 +226,7 @@ const uiText = {
     zoomCard: "ขยายไพ่",
     closeCard: "ปิดภาพไพ่",
     aiLoadingTitle: "กำลังรอคำตอบจากผู้มีอำนาจเหนือสายหมอก",
-    aiLoadingCopy: (cardName) => `ผู้ทำนายกำลังเรียบเรียงคำทำนายของ ${cardName}`,
+    aiLoadingCopy: () => "ผู้ทำนายกำลังเรียบเรียงคำทำนาย",
     donateTitle: "Support",
     donateSubtitle: "PayPal / True Wallet",
     donateJokeButton: "สุ่มมุก Support",
@@ -255,8 +255,8 @@ const uiText = {
     nearFuture: "Near future",
     zoomCard: "Zoom card",
     closeCard: "Close card image",
-    aiLoadingTitle: "Waiting for the AI oracle",
-    aiLoadingCopy: (cardName) => `The oracle is shaping the reading for ${cardName}`,
+    aiLoadingTitle: "Awaiting an answer from the authority beyond the mist",
+    aiLoadingCopy: () => "The oracle is shaping the reading",
     donateTitle: "Support",
     donateSubtitle: "PayPal / True Wallet",
     donateJokeButton: "Random support joke",
@@ -285,8 +285,8 @@ const uiText = {
     nearFuture: "近期未来",
     zoomCard: "放大牌面",
     closeCard: "关闭牌面",
-    aiLoadingTitle: "正在等待 AI 回应",
-    aiLoadingCopy: (cardName) => `占卜者正在为 ${cardName} 组织讯息`,
+    aiLoadingTitle: "正在等待雾上权柄的回应",
+    aiLoadingCopy: () => "占卜者正在组织讯息",
     donateTitle: "Support",
     donateSubtitle: "PayPal / True Wallet",
     donateJokeButton: "随机支持笑话",
@@ -525,10 +525,8 @@ function DonatePanel({ language }) {
   );
 }
 
-function AiWaitLoader({ card, language }) {
+function AiWaitLoader({ language }) {
   const text = uiText[language];
-  const cardText = card ? getCardText(card, language) : null;
-  const cardName = cardText?.title || text.nearFuture;
 
   return (
     <div id="ai-wait-loader" className="ai-wait-loader" role="status" aria-live="polite">
@@ -538,7 +536,7 @@ function AiWaitLoader({ card, language }) {
       </div>
       <div>
         <strong>{text.aiLoadingTitle}</strong>
-        <p>{text.aiLoadingCopy(cardName)}</p>
+        <p>{text.aiLoadingCopy()}</p>
       </div>
       <div className="ai-wait-dots" aria-hidden="true">
         <span></span>
