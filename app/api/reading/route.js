@@ -1,4 +1,11 @@
-import { createStaticReading, isStaticReadingReady, staticCategoryKeys, staticCategoryNames } from "../../lib/static-reading";
+import {
+  buildContextualTip,
+  createStaticReading,
+  getStaticCardText,
+  isStaticReadingReady,
+  staticCategoryKeys,
+  staticCategoryNames
+} from "../../lib/static-reading";
 
 export const runtime = "nodejs";
 
@@ -10,6 +17,23 @@ const DEFAULT_GROQ_MODEL = "llama-3.1-8b-instant";
 
 const categoryNames = staticCategoryNames;
 const fallbackCategoryKeys = staticCategoryKeys;
+const languageSettings = {
+  th: {
+    outputLanguage: "Thai",
+    opening: "Start the first paragraph in Thai as '<English card name> คือเรื่องราวของ ...'.",
+    scriptRule: "All user-facing JSON values must be Thai, except the exact English tarot card name and the seeker name if it uses another script. Do not write Chinese."
+  },
+  en: {
+    outputLanguage: "English",
+    opening: "Start the first paragraph as '<English card name> is a story of ...'.",
+    scriptRule: "All user-facing JSON values must be English, except the seeker name if it uses another script. Do not write Thai or Chinese."
+  },
+  zh: {
+    outputLanguage: "Simplified Chinese",
+    opening: "Start the first paragraph in Simplified Chinese as '<English card name>是关于……的故事。'.",
+    scriptRule: "All user-facing JSON values must be Simplified Chinese, except the exact English tarot card name and the seeker name if it uses another script. Do not write Thai."
+  }
+};
 
 function getProviderConfig() {
   return [
@@ -29,11 +53,8 @@ function getProviderConfig() {
 }
 
 function buildPrompt({ card, seeker, sequence, language }) {
-  const outputLanguage = {
-    th: "Thai",
-    en: "English",
-    zh: "Simplified Chinese"
-  }[language] || "Thai";
+  const languageConfig = languageSettings[language] || languageSettings.th;
+  const cardText = getStaticCardText(card, language);
 
   const categoryList = fallbackCategoryKeys
     .map((key) => `${key}: ${categoryNames[key]?.[language] || key}`)
@@ -41,12 +62,20 @@ function buildPrompt({ card, seeker, sequence, language }) {
 
   return [
     "You are a warm, mysterious tarot reading narrator for a single-page web app.",
-    `Write in ${outputLanguage}.`,
+    `Write in ${languageConfig.outputLanguage}.`,
+    languageConfig.scriptRule,
     "Return only strict JSON. No markdown, no code fence, no extra text.",
     "Keep the tone gentle, symbolic, grounded, and non-alarming.",
-    "The story must be at least 600 characters. It may be longer when the atmosphere needs more room.",
+    "The story field must be more than 400 visible characters, ideally 430-550 characters, split into 2-3 short paragraphs.",
+    "Before returning JSON, count the story characters. If it is under 400 characters, expand it before you answer.",
+    languageConfig.opening,
+    "Only after the opening meaning paragraph, connect that meaning to the seeker and draw sequence.",
+    "Do not start the story with the seeker entering, being called, opening a door, or drawing a card.",
     "For Thai output, use natural Thai spacing: no spaces inside normal Thai words, and only use spaces between clauses where they improve readability.",
-    "You may use multiple paragraphs inside the JSON string by escaping line breaks.",
+    "If the seeker name uses another language or script, preserve the name exactly but keep the reading itself in the required output language.",
+    "Use paragraph breaks inside the JSON string by escaping line breaks as \\n\\n.",
+    "Add a tip field: one short encouraging sentence based on the same card and reading context.",
+    "Keep tip gentle and brief: Thai under 90 characters, English under 18 words, Chinese under 28 characters.",
     "Do not make definitive medical, legal, investment, death, pregnancy, or disaster predictions.",
     "Do not mention that you are an AI.",
     "When naming the tarot card, always use the English card name exactly as provided.",
@@ -55,13 +84,13 @@ function buildPrompt({ card, seeker, sequence, language }) {
     `Seeker name: ${seeker}`,
     `Draw sequence: ${sequence === 1 ? "main reading" : "near future, 7-14 days"}`,
     `English card name: ${card?.english || ""}`,
-    `Local card nickname: ${card?.thai || ""}`,
-    `Card essence: ${card?.essence || ""}`,
-    `Card story seed: ${card?.story || ""}`,
+    `Localized card essence: ${cardText.essence || ""}`,
+    `Localized card story seed: ${cardText.story || ""}`,
     "",
     "Required JSON shape:",
     "{",
-    '  "story": "an atmospheric tarot narrative of at least 600 characters",',
+    '  "story": "an atmospheric tarot narrative of more than 400 characters with paragraph breaks",',
+    '  "tip": "one short encouraging sentence from this reading context",',
     '  "forecasts": [',
     '    { "key": "work", "text": "1-2 sentences" }',
     "  ]",
@@ -70,6 +99,37 @@ function buildPrompt({ card, seeker, sequence, language }) {
     `Forecast keys and labels: ${categoryList}`,
     "Include exactly one forecast item for each key: work, money, luck, love, health, current."
   ].join("\n");
+}
+
+function countMatches(text, pattern) {
+  return String(text || "").match(pattern)?.length || 0;
+}
+
+function getScriptCounts(text) {
+  return {
+    thai: countMatches(text, /[\u0E00-\u0E7F]/g),
+    cjk: countMatches(text, /[\u3400-\u4DBF\u4E00-\u9FFF]/g),
+    latin: countMatches(text, /[A-Za-z]/g)
+  };
+}
+
+function isReadingLanguageAligned(reading, language) {
+  const text = [
+    reading.story,
+    reading.tip,
+    ...(Array.isArray(reading.forecasts) ? reading.forecasts.map((item) => item.text) : [])
+  ].join(" ");
+  const counts = getScriptCounts(text);
+
+  if (language === "th") {
+    return counts.thai >= 80 && counts.cjk < 20;
+  }
+
+  if (language === "zh") {
+    return counts.cjk >= 100 && counts.thai < 20;
+  }
+
+  return counts.latin >= 120 && counts.thai < 20 && counts.cjk < 20;
 }
 
 function parseJsonText(text) {
@@ -87,25 +147,35 @@ function parseJsonText(text) {
   }
 }
 
-function normalizeReading(data, language) {
+function normalizeReading(data, language, card) {
   if (!data || typeof data.story !== "string" || !Array.isArray(data.forecasts)) {
     throw new Error("Model JSON did not match the reading schema");
   }
 
+  const story = data.story.trim();
   const forecastMap = new Map(
     data.forecasts
       .filter((item) => item && typeof item.key === "string" && typeof item.text === "string")
       .map((item) => [item.key, item.text.trim()])
   );
 
-  return {
-    story: data.story.trim(),
-    forecasts: fallbackCategoryKeys.map((key) => ({
-      key,
-      label: categoryNames[key]?.[language] || key,
-      text: forecastMap.get(key) || ""
-    }))
+  const forecasts = fallbackCategoryKeys.map((key) => ({
+    key,
+    label: categoryNames[key]?.[language] || key,
+    text: forecastMap.get(key) || ""
+  }));
+
+  const reading = {
+    story,
+    tip: buildContextualTip({ card, language, story, forecasts, tip: data.tip }),
+    forecasts
   };
+
+  if (!isReadingLanguageAligned(reading, language)) {
+    throw new Error(`Model response language did not match ${language}`);
+  }
+
+  return reading;
 }
 
 async function callGemini(provider, prompt) {
@@ -117,7 +187,7 @@ async function callGemini(provider, prompt) {
       contents: [{ role: "user", parts: [{ text: prompt }] }],
       generationConfig: {
         temperature: 0.85,
-        maxOutputTokens: 1600,
+        maxOutputTokens: 1200,
         responseMimeType: "application/json"
       }
     })
@@ -145,7 +215,7 @@ async function callGroq(provider, prompt) {
     body: JSON.stringify({
       model: provider.model,
       temperature: 0.85,
-      max_tokens: 1600,
+      max_tokens: 1200,
       response_format: { type: "json_object" },
       messages: [
         {
@@ -197,7 +267,7 @@ export async function POST(request) {
   for (const provider of providers) {
     try {
       const rawText = await provider.call(provider, prompt);
-      const reading = normalizeReading(parseJsonText(rawText), language);
+      const reading = normalizeReading(parseJsonText(rawText), language, input.card);
       return Response.json({
         provider: provider.name,
         model: provider.model,

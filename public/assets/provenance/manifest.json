@@ -1,0 +1,559 @@
+{
+  "schema": "veilbound-asset-provenance/v1",
+  "generatedAt": "2026-07-08T02:46:09.504Z",
+  "issuer": "Veilbound Arcana",
+  "source": "https://tarot.mangmeeplus.com",
+  "manifest": "/assets/provenance/manifest.json",
+  "publicKey": {
+    "algorithm": "Ed25519",
+    "path": "/assets/provenance/ed25519-public.pem",
+    "sha256": "5fc789184bc34fc90e0b17ff8ea1e15cbb7c117d8f84e13c560b75ba85845bab",
+    "pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAJd88rqvS/UJtR6Afl4eNkKJcsZ58V1q+u7nIKaPPUtM=\n-----END PUBLIC KEY-----\n"
+  },
+  "hash": {
+    "algorithm": "SHA-256",
+    "canonicalization": "PNG bytes with veilbound.provenance text chunks removed"
+  },
+  "assets": [
+    {
+      "assetId": "assets-cards-major-major-00-the-fool",
+      "path": "/assets/cards/major/major-00-the-fool.png",
+      "mediaType": "image/png",
+      "bytes": 3059233,
+      "canonicalSha256": "e85ab54f660c2e8e341b2d710e719d99792b68bdec18ed66b6e314f74b589a46",
+      "fileSha256": "fe59e5c3b89cdbb47930a9e981dbf6bc93fae503e220cfa8933678107ebac721",
+      "signature": "Fx6-9Z8lIy7K1oEYTVIxxP2xDm8ANG40N-DrTpVcd2r8iYUW60ojUjn5icBQzUPWpqpmD4MaNxvAI-R0jPgBAQ",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-00-the-fool",
+        "path": "/assets/cards/major/major-00-the-fool.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "e85ab54f660c2e8e341b2d710e719d99792b68bdec18ed66b6e314f74b589a46",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-01-the-magician",
+      "path": "/assets/cards/major/major-01-the-magician.png",
+      "mediaType": "image/png",
+      "bytes": 3089512,
+      "canonicalSha256": "36dadc5258b37b8977b81e8d8099b768ef823a1b099705c019d76ea7291093f7",
+      "fileSha256": "b69af1b6d09036cf3525027d276c804686621af8b5353f92118d5a656777f329",
+      "signature": "EyMmKmm83LehcFT1N3g77VKr3jFjPjjCHJ7sgjnaWMhXlhma0m4GDkrailHQ1GcgDxTxDc6XHOQWyuXknqVTAg",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-01-the-magician",
+        "path": "/assets/cards/major/major-01-the-magician.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "36dadc5258b37b8977b81e8d8099b768ef823a1b099705c019d76ea7291093f7",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-02-high-priestess",
+      "path": "/assets/cards/major/major-02-high-priestess.png",
+      "mediaType": "image/png",
+      "bytes": 3096474,
+      "canonicalSha256": "a798330f0714839ec8c02c93641310eb04f85d374e648705560d0ce02665815b",
+      "fileSha256": "0ce9ee6fc4b9729f69bf1815fabbbe83d07a211275d5de4e8afa4c40967eed15",
+      "signature": "FivtUGK-xQ62vc8X6UiH9vE0-nyqApRcAxIfBwehi5FgGfsweBMV7RIm_FMia5M2qM3HMs82zLpATyC9aZ5-BQ",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-02-high-priestess",
+        "path": "/assets/cards/major/major-02-high-priestess.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "a798330f0714839ec8c02c93641310eb04f85d374e648705560d0ce02665815b",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-03-the-empress",
+      "path": "/assets/cards/major/major-03-the-empress.png",
+      "mediaType": "image/png",
+      "bytes": 3168822,
+      "canonicalSha256": "1a703071ef7e8ebbc67a91c2feddac1d891ac5401c8d7d81273457c6ac1e406a",
+      "fileSha256": "39dc6363063d7d30cebde69e88ef5e1f567f6ca770b1900da10a3e260bb2237e",
+      "signature": "HInp6bkATfjht0FTGtJRW7O7Uc0aRthk7okP9B5dPt0Bkau8u4ABb1d_pdq40JuC8W665fw4Us7ntWNQnQzfAQ",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-03-the-empress",
+        "path": "/assets/cards/major/major-03-the-empress.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "1a703071ef7e8ebbc67a91c2feddac1d891ac5401c8d7d81273457c6ac1e406a",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-04-the-emperor",
+      "path": "/assets/cards/major/major-04-the-emperor.png",
+      "mediaType": "image/png",
+      "bytes": 3254190,
+      "canonicalSha256": "50c8dc91f425631d3867604221192bfab75d7f19ba443657d42a97749f077332",
+      "fileSha256": "ac9db4047f3fb94fb973c927813137cec1c39a1d9bacfdfe686e1a8dc037b017",
+      "signature": "QdzR0wsoX9YFSKMCARtWM8TgHzV5layFPryt_bU0YTOCEk-BtGP9U8myAHMYCURnauP0txYerBFBrYO3S8auAw",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-04-the-emperor",
+        "path": "/assets/cards/major/major-04-the-emperor.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "50c8dc91f425631d3867604221192bfab75d7f19ba443657d42a97749f077332",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-05-the-hierophant",
+      "path": "/assets/cards/major/major-05-the-hierophant.png",
+      "mediaType": "image/png",
+      "bytes": 2966380,
+      "canonicalSha256": "ecd14c3aa0831bf34c8d7ee2279e9a1224002580f184215d52d06d2a7753e4df",
+      "fileSha256": "d7e80e842c24c77d3621845f4c3a6ebbb278f7fab4be77dec41411d3e9302da2",
+      "signature": "2ljEN5vNhzB6PQ8ORKtNdouHLr1cQyNtgdazn2xucjTW5sADoKCQjxg_fzbU-tda1ZkizF51NjsfNFyKo17CCg",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-05-the-hierophant",
+        "path": "/assets/cards/major/major-05-the-hierophant.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "ecd14c3aa0831bf34c8d7ee2279e9a1224002580f184215d52d06d2a7753e4df",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-06-the-lovers",
+      "path": "/assets/cards/major/major-06-the-lovers.png",
+      "mediaType": "image/png",
+      "bytes": 3191028,
+      "canonicalSha256": "bfe28a262b3736f274d4f53a067cd95c976a995d04d186ea97aa3f37035eb72a",
+      "fileSha256": "1f68069004355d85b204db437520304134eefa2a5d67cbffb0eee23bd481b707",
+      "signature": "GJMYPc-YS3kpLqwqMplh5uQSWGlcVPKTctF4rQHOW4AD_HlT53_kcMLgcOnRvhVOXdHpsl6rtH_t9fTMNf5ZDQ",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-06-the-lovers",
+        "path": "/assets/cards/major/major-06-the-lovers.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "bfe28a262b3736f274d4f53a067cd95c976a995d04d186ea97aa3f37035eb72a",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-07-the-chariot",
+      "path": "/assets/cards/major/major-07-the-chariot.png",
+      "mediaType": "image/png",
+      "bytes": 3448543,
+      "canonicalSha256": "9c1e14807fd69801e2959233da0f35640d495aee22070032c0416b1da1e4b530",
+      "fileSha256": "552343000cd1d2771d2dc1bc416d50ce61d6ec8ce3894aaeed071241a01cc68a",
+      "signature": "xwYlAogWqfR6LHa3faTT5bSKEJH1cyaXntClKoRsOSSJXBET5Jo6xZgl9pPZjhoBqGFwxMDFjAVEpk4tPDafCg",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-07-the-chariot",
+        "path": "/assets/cards/major/major-07-the-chariot.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "9c1e14807fd69801e2959233da0f35640d495aee22070032c0416b1da1e4b530",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-08-strength",
+      "path": "/assets/cards/major/major-08-strength.png",
+      "mediaType": "image/png",
+      "bytes": 2981816,
+      "canonicalSha256": "4f7feb9eaf0c7bf5df5ceb5e48fe36bf73c71834471ac3ec494dec9c86147d9c",
+      "fileSha256": "8dd3cae4d9b2a96aa1ef1fadcfb0f846af21c9302e3b14df9c5c55168e166ef7",
+      "signature": "EqpL0SWY7cKY4lktN6OzZfk4yv74TtCH1c1wWDTZLMHdnde9GhpDfvt-znyrxHfR2Bg6OpDyu1lsWtnZT_CCCw",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-08-strength",
+        "path": "/assets/cards/major/major-08-strength.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "4f7feb9eaf0c7bf5df5ceb5e48fe36bf73c71834471ac3ec494dec9c86147d9c",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-09-the-hermit",
+      "path": "/assets/cards/major/major-09-the-hermit.png",
+      "mediaType": "image/png",
+      "bytes": 2864240,
+      "canonicalSha256": "f3509f01a7d3824970c81d575d03a5dde5009145e8321977fb3fc5e4c95669a0",
+      "fileSha256": "08dc12a941a63829ace28b86665bbd4d672f1d466314250719238c29acde5112",
+      "signature": "7BDYrDC3GY-jmuLGSOYK6_m0BjAr2zwDp4fhMOmrM0EAJtmvAKDYT8HhvISJntLpWW86Suh-l-IDabwRGa1NBg",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-09-the-hermit",
+        "path": "/assets/cards/major/major-09-the-hermit.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "f3509f01a7d3824970c81d575d03a5dde5009145e8321977fb3fc5e4c95669a0",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-10-wheel-of-fortune",
+      "path": "/assets/cards/major/major-10-wheel-of-fortune.png",
+      "mediaType": "image/png",
+      "bytes": 3330843,
+      "canonicalSha256": "bcf59211943727b6c5c8e9fe3e9648bc1159780870ce45a6e949b3ff77aecb1e",
+      "fileSha256": "b2f81e3a98ece522c4caae0d2d5c7926b9936b492b9a3f535de960e980c8fe0a",
+      "signature": "hQN7ihIJ4ZAv7jgcrWrO7aTvM9ZSpPKAPyQ5hGVtS1sCTpR00sLc4zTBsY9L1GdrafbEg1ii_kzccP5wdHs9Dw",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-10-wheel-of-fortune",
+        "path": "/assets/cards/major/major-10-wheel-of-fortune.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "bcf59211943727b6c5c8e9fe3e9648bc1159780870ce45a6e949b3ff77aecb1e",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-11-justice",
+      "path": "/assets/cards/major/major-11-justice.png",
+      "mediaType": "image/png",
+      "bytes": 3179013,
+      "canonicalSha256": "ecf6d9038479ffe1ef6380054bda12008564bb4aa3dcdf0106a01cd3b49a3967",
+      "fileSha256": "4b6f5a1740243f27364b6f33016cd38bc2ab45cdff76c65a166caff7080531f6",
+      "signature": "b0jDbo3JGIiTeViYfpU4D4Ov7JIrYcHZUzr2g9QxiHOGTkywKrznOdToi0HXDI8pEetJ70CzcVYQOOFNad4UCw",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-11-justice",
+        "path": "/assets/cards/major/major-11-justice.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "ecf6d9038479ffe1ef6380054bda12008564bb4aa3dcdf0106a01cd3b49a3967",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-12-the-hanged-man",
+      "path": "/assets/cards/major/major-12-the-hanged-man.png",
+      "mediaType": "image/png",
+      "bytes": 3007766,
+      "canonicalSha256": "977fc61c9837a3a71ee139518ab92476ed6b8c54e130541ea766ea42a5e32832",
+      "fileSha256": "71f74f5414d4a1a76bbf219a4ac9ffc32b72e043fb29b58bbbad1acf79d7954d",
+      "signature": "gJTwBBhaloppCwFGItkcKXXD0b0xBOg8eT6yqHc8Es5Q5_ZwLm54FEjvGETJ9WEMJ6weSqvggvEndF-0WM4vCw",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-12-the-hanged-man",
+        "path": "/assets/cards/major/major-12-the-hanged-man.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "977fc61c9837a3a71ee139518ab92476ed6b8c54e130541ea766ea42a5e32832",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-13-death",
+      "path": "/assets/cards/major/major-13-death.png",
+      "mediaType": "image/png",
+      "bytes": 3553770,
+      "canonicalSha256": "4b1c80375606d0f4b757f27b6d4df4c06c516b08aee22ba057be34990e246e9b",
+      "fileSha256": "20581acfa262d735d5003d8aeef50d62337555746c9b970b8fe213d0c01fa467",
+      "signature": "QGt7hr1j1Uf-IFHtG6q1jsnRziLMaTfZh_K-Me6EuSSbNvmLfnYUt-HB6CTx_dSNeUjmW8L23B3tFk17FfAtCQ",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-13-death",
+        "path": "/assets/cards/major/major-13-death.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "4b1c80375606d0f4b757f27b6d4df4c06c516b08aee22ba057be34990e246e9b",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-14-temperance",
+      "path": "/assets/cards/major/major-14-temperance.png",
+      "mediaType": "image/png",
+      "bytes": 3339832,
+      "canonicalSha256": "ef7ae21f31f88c83a086404e0b2fe82a843151d0741413f6977b7307a3f77a2b",
+      "fileSha256": "16dc9dfce943e27c6ef428eaaf3107ab8f7fd79bafaddd1b2f55d50dfc7b53bb",
+      "signature": "6ZtkPpIbGD5yaf7gA134nGRb0m21pdYYplaDnM_UqUeAS9vtGQ-VkMtLGg66YSkr2ddU4tmyItDENYlV71nxBw",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-14-temperance",
+        "path": "/assets/cards/major/major-14-temperance.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "ef7ae21f31f88c83a086404e0b2fe82a843151d0741413f6977b7307a3f77a2b",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-15-the-devil",
+      "path": "/assets/cards/major/major-15-the-devil.png",
+      "mediaType": "image/png",
+      "bytes": 2920919,
+      "canonicalSha256": "928fa8c6cc620b3a4ad4d89d98db4618f8f12d31a4b1cf8b78d0c10e2b8f539a",
+      "fileSha256": "db543ca755347039c4cc15c7250c47f10c9cf522b3bc94325e4dcb7dbe533424",
+      "signature": "_G5URM4Pn7XqPRQyhd2sy_uHfmPSJO6Ek8f1UfAO59GKW5liI-8zLQMJIjOd5ChjQ75Aw5AD5GrntGYNi5IeBA",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-15-the-devil",
+        "path": "/assets/cards/major/major-15-the-devil.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "928fa8c6cc620b3a4ad4d89d98db4618f8f12d31a4b1cf8b78d0c10e2b8f539a",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-16-the-tower",
+      "path": "/assets/cards/major/major-16-the-tower.png",
+      "mediaType": "image/png",
+      "bytes": 3119374,
+      "canonicalSha256": "494a341a0e99d49d8f5408cbf7ce62209f327f0f6404da0c65e1f8f7f6624d0a",
+      "fileSha256": "f379e8c75866217a44722293f703657ba9a995717d91978e08bc4a943c2eac93",
+      "signature": "LaIcoDD7Khd0aN3VG6AvDIpnX5UcwL5zeuYUxp9W4CkvxiBST2Ll3iuwqpNlUuLV3Cl-Y84z9oap_ZrITj6QDg",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-16-the-tower",
+        "path": "/assets/cards/major/major-16-the-tower.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "494a341a0e99d49d8f5408cbf7ce62209f327f0f6404da0c65e1f8f7f6624d0a",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-17-the-star",
+      "path": "/assets/cards/major/major-17-the-star.png",
+      "mediaType": "image/png",
+      "bytes": 3172408,
+      "canonicalSha256": "ab3c5eb952c9a6ac519bcddfb8211d68744f716582c389ce0f0be141b6d199cf",
+      "fileSha256": "4fff817181c5a7116b282eea8ea36186631a0cd685b2c4711b9d56f278ee9f3b",
+      "signature": "aU8NPdKfvKKEFmHH92z0EmSV06tPkGPYgcDIlhfyIZQ0jMEN99vum23mc9yhuKuXaQJ2itqU36pJIZGA_UlsDA",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-17-the-star",
+        "path": "/assets/cards/major/major-17-the-star.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "ab3c5eb952c9a6ac519bcddfb8211d68744f716582c389ce0f0be141b6d199cf",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-18-the-moon",
+      "path": "/assets/cards/major/major-18-the-moon.png",
+      "mediaType": "image/png",
+      "bytes": 3192382,
+      "canonicalSha256": "9d8e8b2e2d13c7d91a502c4cd0ab32c1a20f49a3b40650d1c80ad1f7b5e6fe4d",
+      "fileSha256": "f16f347f2580be4d98ceb0c151f943dec9c1480d899a0bd6d4fa243531d283fa",
+      "signature": "76BGYyOefbOnfo9_pvqCh82ap2CoAWCAMEFodZDQKATiFO388gqZLaucARmbRgTNQguqDaKnxw3qQgpU_xUfDA",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-18-the-moon",
+        "path": "/assets/cards/major/major-18-the-moon.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "9d8e8b2e2d13c7d91a502c4cd0ab32c1a20f49a3b40650d1c80ad1f7b5e6fe4d",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-19-the-sun",
+      "path": "/assets/cards/major/major-19-the-sun.png",
+      "mediaType": "image/png",
+      "bytes": 3329412,
+      "canonicalSha256": "71e06485b8bdfef2da69dc371e0a5f988d9042e6d675e7f99d7033ee1e7f2079",
+      "fileSha256": "55f05e536c7478b621393948ed3bce975b74a37465e0d3309a8107e6b571bb40",
+      "signature": "2DimmZc0sSGLJu0lQLG2ae2wzFD7b2HJShs6Gb1fF6_dGrxDa6YPJ849WI9-Nd-z2wYeI8QZOaSx_glUJIo8Bw",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-19-the-sun",
+        "path": "/assets/cards/major/major-19-the-sun.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "71e06485b8bdfef2da69dc371e0a5f988d9042e6d675e7f99d7033ee1e7f2079",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-20-judgement",
+      "path": "/assets/cards/major/major-20-judgement.png",
+      "mediaType": "image/png",
+      "bytes": 3340789,
+      "canonicalSha256": "804f630567736ba4428d706bf92a68ea7f0cfc17803d1411e1aba7103e9d1e48",
+      "fileSha256": "4391cf1afd4fae866a0983384096cce5e180b34415c95bb211acf3d44f7b29bc",
+      "signature": "YhWqe932HKw3Cbol7NvLXTAdBMM_9wUGKnhtCqlZjs4jFZQGsLn4atuFd1Q_EggmcaRQ9LTRW0eGbfpGly4eAw",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-20-judgement",
+        "path": "/assets/cards/major/major-20-judgement.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "804f630567736ba4428d706bf92a68ea7f0cfc17803d1411e1aba7103e9d1e48",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-major-major-21-the-world",
+      "path": "/assets/cards/major/major-21-the-world.png",
+      "mediaType": "image/png",
+      "bytes": 3542008,
+      "canonicalSha256": "e0b62304f1c1dc1276c02c827f23fe945d2e1dd374d7f56902cade54987a2866",
+      "fileSha256": "25b1da1db3ad4098b4aa1c429afa32b2ae08126570f51b6078f6282db70bf129",
+      "signature": "5oMEufafc5eoHydL3HdzIRGwKTLVf-00B-KBXEMC3jjqtszqjrgIn-bD1PmnN72SSQMaarDpcZ6jL8q8YnqQDQ",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-major-major-21-the-world",
+        "path": "/assets/cards/major/major-21-the-world.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "e0b62304f1c1dc1276c02c827f23fe945d2e1dd374d7f56902cade54987a2866",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-samples-card-back",
+      "path": "/assets/cards/samples/card-back.png",
+      "mediaType": "image/png",
+      "bytes": 3239800,
+      "canonicalSha256": "febe619c7247c570f9e09131a76381b7a0615b72bd683345a328fd9de50e39c7",
+      "fileSha256": "88a0a4764faae2828494689ae18705e062bfc3092726ca81338bef9947f5b327",
+      "signature": "2zCnQpBhIt-zC5j7G0aj9aFNpXh3Q7oXP3j8uZaX4dvPid7y5FRwHsOOX8xMSbqfrJWWnRBYDJPdLDjwH3QIDA",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-samples-card-back",
+        "path": "/assets/cards/samples/card-back.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "febe619c7247c570f9e09131a76381b7a0615b72bd683345a328fd9de50e39c7",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-samples-major-00-the-fool",
+      "path": "/assets/cards/samples/major-00-the-fool.png",
+      "mediaType": "image/png",
+      "bytes": 3059237,
+      "canonicalSha256": "e85ab54f660c2e8e341b2d710e719d99792b68bdec18ed66b6e314f74b589a46",
+      "fileSha256": "f510a611514577e04ca3f515f8263d9589895c192852ba07aeec91190bff9c4e",
+      "signature": "Oy-QfVk4XdfxdMxf1y303NtkPTXzxdznt4Kmflov7gjcdDxVn206EG9QDVz2kpEzZTBThrKyFo_Sul4MyHs8Dw",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-samples-major-00-the-fool",
+        "path": "/assets/cards/samples/major-00-the-fool.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "e85ab54f660c2e8e341b2d710e719d99792b68bdec18ed66b6e314f74b589a46",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-samples-major-02-high-priestess",
+      "path": "/assets/cards/samples/major-02-high-priestess.png",
+      "mediaType": "image/png",
+      "bytes": 3096478,
+      "canonicalSha256": "a798330f0714839ec8c02c93641310eb04f85d374e648705560d0ce02665815b",
+      "fileSha256": "92ac7a2a312fe9f690b1ddb60691a9b87d7d4566ead5f9345e4123f2944354cd",
+      "signature": "WyCtwGSuf3sJaJRgtFLncwW4kuY4c_T6G27WDC0LUKYyWsbyQbPksIakAQ5Id9hPQl-IODZfRj-uwe5ooK3OCg",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-samples-major-02-high-priestess",
+        "path": "/assets/cards/samples/major-02-high-priestess.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "a798330f0714839ec8c02c93641310eb04f85d374e648705560d0ce02665815b",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-samples-major-13-death",
+      "path": "/assets/cards/samples/major-13-death.png",
+      "mediaType": "image/png",
+      "bytes": 3553774,
+      "canonicalSha256": "4b1c80375606d0f4b757f27b6d4df4c06c516b08aee22ba057be34990e246e9b",
+      "fileSha256": "6b1f707d264728610bdc86146f22dacb5cd8caf5b9fa1ed0133622d4c4862b20",
+      "signature": "_qJ4SJMpa26JCBSzVxEDd5_pg3HaeLwKtZqlNHK7Kn9h6tLRSdrIX3eOLezUuR6Mu8sx-SRtoRmXWg13PP5SAQ",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-samples-major-13-death",
+        "path": "/assets/cards/samples/major-13-death.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "4b1c80375606d0f4b757f27b6d4df4c06c516b08aee22ba057be34990e246e9b",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    },
+    {
+      "assetId": "assets-cards-samples-minor-cups-ace",
+      "path": "/assets/cards/samples/minor-cups-ace.png",
+      "mediaType": "image/png",
+      "bytes": 3178305,
+      "canonicalSha256": "f9b7baf71f7a1e77068f2fe226d0f7ba645bd6c5932086b9c63eaf2257bf869e",
+      "fileSha256": "f145266918cabb7528ad9ab03ae09289008de90f6347eddd123dd28299e4832e",
+      "signature": "4RX6ZGZKs-AYiCUXDKKQPGFrj7CZ2IrEN_B0v9XTaExzu89pA9BMIYIc-UhvOiZE4VQnttwUgh3d7ClgPhMhBA",
+      "signedPayload": {
+        "version": 1,
+        "assetId": "assets-cards-samples-minor-cups-ace",
+        "path": "/assets/cards/samples/minor-cups-ace.png",
+        "mediaType": "image/png",
+        "canonicalSha256": "f9b7baf71f7a1e77068f2fe226d0f7ba645bd6c5932086b9c63eaf2257bf869e",
+        "issuer": "Veilbound Arcana",
+        "source": "https://tarot.mangmeeplus.com",
+        "manifest": "/assets/provenance/manifest.json",
+        "issuedAt": "2026-07-08T02:45:54.634Z"
+      }
+    }
+  ]
+}

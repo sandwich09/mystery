@@ -16,6 +16,30 @@ const staticNameless = {
   zh: "无名旅人"
 };
 
+const staticTipFallbacks = {
+  th: "ค่อยๆไปนะ วันนี้แค่เลือกหนึ่งก้าวที่ทำให้ใจเบาขึ้นก็พอ",
+  en: "Take heart. One honest next step is enough for today.",
+  zh: "别急，今天先选择一个让心更轻的小步伐。"
+};
+
+const staticTipTemplates = {
+  th: ({ cardName, source }) => `${cardName} เตือนอย่างอ่อนโยน: ${source}`,
+  en: ({ cardName, source }) => `${cardName} gently reminds you: ${source}`,
+  zh: ({ cardName, source }) => `${cardName}温柔提醒你：${source}`
+};
+
+const tipSourceLimits = {
+  th: 76,
+  en: 92,
+  zh: 32
+};
+
+const tipOutputLimits = {
+  th: 122,
+  en: 138,
+  zh: 58
+};
+
 const staticCategoryLines = {
   th: {
     work: [
@@ -117,7 +141,7 @@ const staticCategoryLines = {
 
 const localizedCards = {
   en: {
-    "00": { name: "The Fool", essence: "new beginnings", story: "A young traveler carries a lamp toward a city without a map. The unknown is not empty; it is waiting for the first brave step." },
+    "0": { name: "The Fool", essence: "new beginnings", story: "A young traveler carries a lamp toward a city without a map. The unknown is not empty; it is waiting for the first brave step." },
     "01": { name: "The Magician", essence: "focused action", story: "Tools lie on the old table, but they are only ordinary objects until a willing hand begins to use them." },
     "02": { name: "The High Priestess", essence: "intuition", story: "Behind the quiet curtain, an unread message waits. The truth has not disappeared; it is asking for stillness." },
     "03": { name: "The Empress", essence: "growth", story: "A golden seed falls into tired soil. Patient care turns what looked empty into a place of fragrance and life." },
@@ -141,7 +165,7 @@ const localizedCards = {
     "21": { name: "The World", essence: "completion", story: "The traveler returns to the first gate with dust on their shoes. The ending is also a circle opening into the next beginning." }
   },
   zh: {
-    "00": { name: "愚者", essence: "新的开始", story: "年轻的旅人提着灯走向没有地图的城市。未知并不是空白，而是在等待第一个勇敢的脚步。" },
+    "0": { name: "愚者", essence: "新的开始", story: "年轻的旅人提着灯走向没有地图的城市。未知并不是空白，而是在等待第一个勇敢的脚步。" },
     "01": { name: "魔术师", essence: "行动与显化", story: "旧桌上放着各种工具，但在愿意开始的手出现之前，它们都只是普通之物。" },
     "02": { name: "女祭司", essence: "直觉", story: "安静的帘幕后，有一封尚未被读懂的信。真相没有消失，只是在请求你安静下来。" },
     "03": { name: "皇后", essence: "成长", story: "金色的种子落进疲惫的土壤。耐心的照料，会让看似空无的地方重新有香气和生命。" },
@@ -166,6 +190,59 @@ const localizedCards = {
   }
 };
 
+function trimTipText(text, language, maxLength = tipOutputLimits[language]) {
+  const normalized = String(text || "").replace(/\s+/g, " ").trim();
+  if (!normalized) return "";
+  if (normalized.length <= maxLength) return normalized;
+
+  const sliced = normalized.slice(0, maxLength).trim();
+  const lastSpace = sliced.lastIndexOf(" ");
+  const shouldBreakAtSpace = lastSpace > maxLength * 0.55;
+  const compact = shouldBreakAtSpace ? sliced.slice(0, lastSpace).trim() : sliced;
+
+  return `${compact.replace(/[,.!?;:，。！？；：、-]+$/g, "").trim()}...`;
+}
+
+function pickTipSentence(text) {
+  const normalized = String(text || "").replace(/\s+/g, " ").trim();
+  if (!normalized) return "";
+
+  const sentence = normalized.match(/[^.!?。！？]+[.!?。！？]?/)?.[0];
+  return sentence || normalized;
+}
+
+function getPreferredTipSource(story, forecasts) {
+  const forecastItems = Array.isArray(forecasts) ? forecasts : [];
+  const preferredForecast = forecastItems.find((item) => item?.key === "current" && item.text)
+    || forecastItems.find((item) => item?.text);
+
+  return preferredForecast?.text || story || "";
+}
+
+export function buildContextualTip({ card, language, story, forecasts, tip } = {}) {
+  const normalizedLanguage = normalizeLanguage(language);
+  const directTip = trimTipText(tip, normalizedLanguage);
+
+  if (directTip) return directTip;
+
+  const source = trimTipText(
+    pickTipSentence(getPreferredTipSource(story, forecasts)),
+    normalizedLanguage,
+    tipSourceLimits[normalizedLanguage]
+  );
+
+  if (!source) return staticTipFallbacks[normalizedLanguage];
+
+  const cardText = getStaticCardText(card, normalizedLanguage);
+  return trimTipText(
+    staticTipTemplates[normalizedLanguage]({
+      cardName: cardText.name,
+      source
+    }),
+    normalizedLanguage
+  );
+}
+
 function normalizeLanguage(language) {
   return ["th", "en", "zh"].includes(language) ? language : "th";
 }
@@ -179,7 +256,7 @@ function safeSeekerName(seeker, language) {
   return trimmed || staticNameless[language];
 }
 
-function getStaticCardText(card = {}, language) {
+export function getStaticCardText(card = {}, language) {
   const englishName = card.english || localizedCards.en[card.number]?.name || card.thai || "Nameless Card";
 
   if (language === "th") {
@@ -190,7 +267,7 @@ function getStaticCardText(card = {}, language) {
     };
   }
 
-  const localized = localizedCards[language]?.[card.number] || localizedCards.en["00"];
+  const localized = localizedCards[language]?.[card.number] || localizedCards.en[card.number] || localizedCards.en["0"];
   return {
     name: englishName,
     essence: localized.essence,
@@ -200,50 +277,41 @@ function getStaticCardText(card = {}, language) {
 
 export function buildThaiStory(card, seeker, sequence) {
   const cardText = getStaticCardText(card, "th");
-  const opening = sequence === 1
-    ? `${seeker} ถูกเรียกเข้าไปในเมืองหมอก เมื่อประตูทองแดงเปิดออก ไพ่ “${cardText.name}” พลิกขึ้นบนโต๊ะหินกลางห้องพิธี`
-    : `เมื่อ ${seeker} เปิดประตูถัดไป หมอกเดิมแยกออกเป็นทางใหม่ ไพ่ “${cardText.name}” จึงปรากฏเหมือนตอนต่อของคำทำนาย`;
-  const sequenceMeaning = sequence === 1
-    ? "ไพ่ใบนี้เป็นเสียงหลักของวันนี้ มันกางบรรยากาศให้เห็นว่าใจคุณกำลังยืนอยู่ตรงไหน"
-    : "ไพ่ใบนี้เป็นเสียงจากอนาคตอันใกล้ ช่วง 7-14 วันข้างหน้า ให้สังเกตการตอบสนองของตัวเอง";
+  const seekerLink = sequence === 1
+    ? `สำหรับ ${seeker} นี่คือเสียงหลักของวันนี้ มันชี้ให้เห็นว่าใจคุณกำลังยืนอยู่ตรงไหน`
+    : `สำหรับ ${seeker} นี่คือเสียงจากอนาคตอันใกล้ 7-14 วัน ให้สังเกตการตอบสนองของตัวเอง`;
 
-  return `${opening}. ${cardText.story}
+  return `${cardText.name} คือเรื่องราวของ “${cardText.essence}”: ${cardText.story}
 
-แก่นของไพ่ใบนี้คือ “${cardText.essence}” ${sequenceMeaning} ผู้ทำนายไม่ได้ขอให้เชื่อแบบตายตัว แต่ชวนให้ฟังสัญญาณรอบตัวอย่างสงบ งานควรเริ่มจากสิ่งเล็กที่ทำเสร็จได้จริง เงินควรแยกจำเป็นออกจากอยากได้ ความรักให้ดูการกระทำซ้ำๆ มากกว่าคำพูดครั้งเดียว สุขภาพให้กลับมาดูพื้นฐานก่อนมองหาคำตอบไกลตัว และเรื่องที่เกิดขึ้นช่วงนี้อาจเป็นกระจกที่สะท้อนสิ่งเดิม เพื่อให้คุณเลือกใหม่ด้วยสติที่มากขึ้น
+${seekerLink} ฟังสัญญาณรอบตัวอย่างสงบ: งานให้เริ่มจากสิ่งเล็ก เงินให้แยกจำเป็นกับอยากได้ และความรักให้ดูการกระทำซ้ำๆ
 
-ให้มองคำทำนายนี้เหมือนแผนที่ในหมอก ไม่ใช่คำสั่งสุดท้าย สัญญาณที่สำคัญที่สุดคือความรู้สึกหลังอ่านว่าตรงไหนทำให้ใจสงบ ตรงไหนทำให้ใจเกร็ง และตรงไหนเรียกให้คุณรับผิดชอบชีวิตของตัวเองมากขึ้น หากวันนี้ยังลังเล อย่าเร่งตัดสินทั้งชีวิตในครั้งเดียว ให้เลือกหนึ่งก้าวที่ทำให้ใจเบาขึ้น ซื่อสัตย์กับตัวเองมากขึ้น และไม่ทำร้ายขอบเขตของใคร ไพ่เปิดทางให้เห็นจังหวะ แต่ผู้เดินยังเป็นคุณเสมอ`;
+นี่คือแผนที่ในหมอก ไม่ใช่คำสั่งสุดท้าย ถ้ายังลังเล ให้เลือกหนึ่งก้าวที่ทำให้ใจเบาขึ้นและซื่อสัตย์ขึ้น ไพ่เปิดทางให้เห็นจังหวะ แต่ผู้เดินยังเป็นคุณเสมอ`;
 }
 
 function buildEnglishStory(card, seeker, sequence) {
   const cardText = getStaticCardText(card, "en");
-  const opening = sequence === 1
-    ? `${seeker} is called into the city of mist. As the bronze door opens, ${cardText.name} turns face-up on the stone table at the center of the ritual room`
-    : `When ${seeker} opens the next door, the old mist divides into a new path, and ${cardText.name} appears like the next chapter of the omen`;
-  const sequenceMeaning = sequence === 1
-    ? "This card is the main voice of today; it spreads the atmosphere wide enough for you to see where your heart is standing"
-    : "This card speaks from the near future, especially the next 7-14 days, and asks you to notice your own responses as events move";
+  const seekerLink = sequence === 1
+    ? `For ${seeker}, this is today's main signal`
+    : `For ${seeker}, this is a near-future signal for the next 7-14 days`;
 
-  return `${opening}. ${cardText.story}
+  return `${cardText.name} is a story of "${cardText.essence}". ${cardText.story}
 
-The heart of this card is "${cardText.essence}". ${sequenceMeaning}. The oracle is not asking you to believe in a fixed fate. It is inviting you to read the signs around you with a calm mind. Work should begin with something small enough to finish for real. Money asks you to separate what is necessary from what merely wants to be comforted. In love, watch repeated actions more closely than one beautiful sentence. For health, return to the basics before searching for distant answers. What is happening around you now may be a mirror of an old pattern, returning so you can choose again with greater awareness.
+${seekerLink}. Read the signs calmly: start with one finishable task, separate needs from wants, and trust repeated actions over pretty words.
 
-Treat this reading as a map held inside fog, not as a final command. The most important signal is the feeling that remains after you read it: where your heart softens, where it tightens, and where it asks you to take more responsibility for your own life. If you are still unsure today, do not force one decision to carry your entire future. Choose one step that makes you lighter, more honest with yourself, and kinder to the boundaries of others. The card can reveal the rhythm, but the person who walks the path is still you.`;
+Use this as a map inside fog, not a command. Choose one honest step that makes you lighter. The card reveals the rhythm, but you still walk the path.`;
 }
 
 function buildChineseStory(card, seeker, sequence) {
   const cardText = getStaticCardText(card, "zh");
-  const opening = sequence === 1
-    ? `${seeker}被召入迷雾之城。铜门开启时，${cardText.name}在仪式室中央的石桌上翻开`
-    : `当${seeker}推开下一扇门，旧日迷雾分成新的道路，${cardText.name}像预言的下一章一样出现`;
-  const sequenceMeaning = sequence === 1
-    ? "这张牌是今日的主要声音，它展开一层氛围，让你看见自己的心正站在什么位置"
-    : "这张牌来自近期未来，尤其是接下来7到14天，它提醒你观察自己面对事件时的反应";
+  const seekerLink = sequence === 1
+    ? `对${seeker}来说，这是今日的主要声音，让你看见自己的心正站在哪里`
+    : `对${seeker}来说，这是近期未来的声音，尤其是接下来7到14天，提醒你观察自己的反应`;
 
-  return `${opening}。${cardText.story}
+  return `${cardText.name}是关于「${cardText.essence}」的故事。${cardText.story}
 
-这张牌的核心是「${cardText.essence}」。${sequenceMeaning}。占卜者并不要求你把命运当成固定不变的答案来相信，而是邀请你带着安静的心，阅读身边正在出现的信号。工作应从一件小而真实、能够完成的事情开始；金钱需要先分清必要之物和只是想被安慰的欲望；感情要多看反复出现的行动，而不是只被一句漂亮的话牵动；健康则要先回到休息、饮水、饮食与呼吸这些基础。此刻发生的事，也许是一面镜子，把旧模式再次映照回来，让你能用更多觉察重新选择。
+${seekerLink}。占卜者并不要求你相信固定的命运，而是邀请你安静阅读身边的信号。工作先从一件能完成的小事开始；金钱先分清必要和欲望；感情多看反复出现的行动；健康先回到休息、饮水、饮食与呼吸这些基础。也请留意哪些事让心安静，哪些事让身体紧绷；反复出现的细节，可能正是牌面在现实里的回声。
 
-请把这段解读看成雾中的地图，而不是最终命令。真正重要的信号，是你读完之后心里留下的感觉：哪里变得安静，哪里忽然收紧，哪里又提醒你该为自己的生活承担更多责任。若今天仍然迟疑，不必逼自己用一次决定背负整段未来。先把注意力放在三个层面：当下能处理的一件小事、最需要被保护的一条边界，以及未来几天反复出现的细节。若同样的话语、地点、时间或情绪再次回来，请先停下观察，再决定是否行动。若答案仍然不清楚，就把问题写下来，等情绪退潮后再读一次；真正适合你的道路，通常不会只靠焦虑逼你立刻选择。也请把选择放回现实，用可以执行的行动、可以说出口的话、可以照顾身体的节奏来验证。只要选择一个让心更轻、更诚实，也更尊重他人边界的步伐就好。牌可以揭示节奏，但走在路上的人，始终还是你自己。`;
+请把这段解读看成雾中的地图，而不是最终命令，也不要急着定论。若今天仍迟疑，不必用一次决定背负整段未来。先选择一个让心更轻、更诚实，也更尊重他人边界的小步伐；再观察未来几天反复出现的细节。若同样的情绪、对话、地点或时间再次回来，先停一下，再决定是否行动。把答案放回现实，用可以执行的小动作验证。牌可以揭示节奏，但走在路上的人，始终还是你自己。`;
 }
 
 function buildStaticStory(card, seeker, sequence, language) {
@@ -264,7 +332,7 @@ function buildStaticStory(card, seeker, sequence, language) {
 
 function pickStaticLine(key, card, seeker, sequence, language) {
   const lines = staticCategoryLines[language][key];
-  const seed = `${card?.number || "00"}-${seeker}-${sequence}-${key}`
+  const seed = `${card?.number || "0"}-${seeker}-${sequence}-${key}`
     .split("")
     .reduce((sum, char) => sum + char.charCodeAt(0), 0);
   return lines[seed % lines.length];
@@ -274,16 +342,19 @@ export function createStaticReading({ card, seeker, sequence, language }) {
   const normalizedLanguage = normalizeLanguage(language);
   const normalizedSequence = normalizeSequence(sequence);
   const normalizedSeeker = safeSeekerName(seeker, normalizedLanguage);
+  const story = buildStaticStory(card, normalizedSeeker, normalizedSequence, normalizedLanguage);
+  const forecasts = staticCategoryKeys.map((key) => ({
+    key,
+    label: staticCategoryNames[key][normalizedLanguage],
+    text: pickStaticLine(key, card, normalizedSeeker, normalizedSequence, normalizedLanguage)
+  }));
 
   return {
     provider: "static",
     model: "local-static-v1",
-    story: buildStaticStory(card, normalizedSeeker, normalizedSequence, normalizedLanguage),
-    forecasts: staticCategoryKeys.map((key) => ({
-      key,
-      label: staticCategoryNames[key][normalizedLanguage],
-      text: pickStaticLine(key, card, normalizedSeeker, normalizedSequence, normalizedLanguage)
-    }))
+    story,
+    tip: buildContextualTip({ card, language: normalizedLanguage, story, forecasts }),
+    forecasts
   };
 }
 

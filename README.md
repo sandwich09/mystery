@@ -29,6 +29,17 @@ npm run dev
 - หน้าเว็บมี title/description, canonical URL, Open Graph/Twitter metadata, JSON-LD structured data, `robots.txt` และ `sitemap.xml`
 - ถ้าเปลี่ยนโดเมนหรือชื่อเว็บ ให้แก้ค่า SEO กลางที่ `app/lib/site.js`
 
+## Asset Provenance
+
+ภาพไพ่ใน `public/assets/cards/` ใช้ระบบ static provenance แบบไม่มี backend:
+
+- `npm run assets:sign` สร้าง SHA-256 hash, เซ็นด้วย Ed25519, ฝัง metadata ลง PNG และเขียน manifest ที่ `public/assets/provenance/manifest.json`
+- `npm run assets:verify` ตรวจว่าไฟล์ภาพใน manifest ยังตรง hash และ signature
+- `npm run assets:verify -- path/to/file.png` ตรวจไฟล์ PNG ที่ดาวน์โหลดกลับมา ถ้า metadata ถูก strip ออกแต่ bytes ภาพยังเหมือน canonical PNG เดิม จะยัง match ผ่าน manifest ได้
+- private key อยู่ที่ `.asset-provenance/ed25519-private.pem` และถูก ignore จาก git ส่วน public key เผยแพร่ที่ `public/assets/provenance/ed25519-public.pem`
+
+หมายเหตุ: วิธีนี้พิสูจน์ความเป็นต้นฉบับและตรวจจับการแก้ไฟล์ได้ แต่ไม่ได้กันคนลบ metadata, re-export, crop หรือ screenshot ภาพหลังดาวน์โหลด
+
 ## โฮสต์ฟรีที่เหมาะ
 
 1. Cloudflare Pages
@@ -51,7 +62,7 @@ npm run dev
 - ใช้โมเดลตระกูล Flash/Flash-Lite สำหรับข้อความภาษาไทย
 - มี endpoint ฝั่ง server ที่ `/api/reading`
 - ลำดับการยิงคือ Gemini ก่อน แล้ว fallback ไป Groq จากนั้น fallback สุดท้ายเป็น static reading
-- static fallback พร้อมสำหรับไทย, English และ中文 โดย story ยึดภาษาไทยเป็นฐานความยาว 600+ ตัวอักษร แล้วแปลเป็นอังกฤษและจีนในโทนเดียวกัน พร้อม 6 หมวดคำทำนายครบทุกภาษา
+- static fallback พร้อมสำหรับไทย, English และ中文 โดย story ยาวประมาณ 400+ ตัวอักษร แบ่งเป็นย่อหน้าอ่านง่าย พร้อม 6 หมวดคำทำนายครบทุกภาษา
 - ถ้ายังไม่ใส่ key หรือ provider ล่มทั้งหมด หน้าเว็บยังแสดงคำทำนายได้ผ่าน static/template fallback
 - ห้ามใส่ API key ใน browser JavaScript โดยตรง
 - ตั้งค่า env โดยคัดลอกจาก `.env.example` เป็น `.env.local`

@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "assets:keygen": "node scripts/asset-provenance.mjs keygen",
+    "assets:sign": "node scripts/asset-provenance.mjs sign",
+    "assets:verify": "node scripts/asset-provenance.mjs verify",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "start": "next start",

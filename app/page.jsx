@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { createStaticReading } from "./lib/static-reading";
+import { buildContextualTip, createStaticReading } from "./lib/static-reading";
 
 const majorImageSlugs = {
-  "00": "the-fool",
+  "0": "the-fool",
   "01": "the-magician",
   "02": "high-priestess",
   "03": "the-empress",
@@ -28,8 +28,12 @@ const majorImageSlugs = {
   "21": "the-world"
 };
 
+function getCardAssetNumber(number) {
+  return String(number).padStart(2, "0");
+}
+
 const tarotDeck = [
-  ["00", "The Fool", "คนพเนจร", "✦", "การเริ่มต้น", "เด็กหนุ่มถือโคมเดินเข้าเมืองที่ไม่มีแผนที่ เขาไม่รู้ว่าประตูบานใดปลอดภัย แต่เสียงระฆังบอกว่าโลกจะเปิดทางให้คนที่กล้าเริ่ม"],
+  ["0", "The Fool", "คนพเนจร", "✦", "การเริ่มต้น", "เด็กหนุ่มถือโคมเดินเข้าเมืองที่ไม่มีแผนที่ เขาไม่รู้ว่าประตูบานใดปลอดภัย แต่เสียงระฆังบอกว่าโลกจะเปิดทางให้คนที่กล้าเริ่ม"],
   ["01", "The Magician", "นักเล่นแร่แปรธาตุ", "☉", "การลงมือ", "นักแปรธาตุวางเหรียญ ดาบ ถ้วย และคทาลงบนโต๊ะไม้เก่า เขาพบว่าปาฏิหาริย์ไม่ได้เกิดจากเวทมนตร์ล้วนๆ แต่เกิดจากมือที่ยอมเริ่มทำ"],
   ["02", "The High Priestess", "นักบวชหญิงแห่งม่านหมอก", "☾", "สัญชาตญาณ", "ใต้หอสมุดต้องห้าม มีหญิงผู้เฝ้าประตูอ่านจดหมายที่ยังไม่ถูกส่ง เธอยิ้ม เพราะความจริงบางอย่างไม่ได้หายไป แค่รอให้ใจนิ่งพอจะได้ยิน"],
   ["03", "The Empress", "จักรพรรดินีสวนลับ", "✿", "การเติบโต", "เมล็ดสีทองตกลงกลางสวนที่เคยแห้งแล้ง ไม่มีใครเชื่อว่ามันจะงอก แต่ผู้เฝ้าสวนรดน้ำทุกคืน จนรุ่งเช้าวันหนึ่งทั้งเมืองได้กลิ่นดอกไม้"],
@@ -53,6 +57,7 @@ const tarotDeck = [
   ["21", "The World", "ประตูโลกครบวง", "◉", "การสำเร็จ", "นักเดินทางกลับมาที่ประตูเดิมพร้อมฝุ่นบนรองเท้า เขาไม่ได้เป็นคนเดิมอีกแล้ว และประตูก็ไม่ใช่ทางออก แต่เป็นวงกลมที่เริ่มบทต่อไป"]
 ].map(([number, english, thai, symbol, essence, story]) => {
   const slug = majorImageSlugs[number] ?? english.toLowerCase().replace(/\s+/g, "-");
+  const assetNumber = getCardAssetNumber(number);
   return {
     number,
     english,
@@ -60,10 +65,123 @@ const tarotDeck = [
     symbol,
     essence,
     story,
-    image: `/assets/cards/major/major-${number}-${slug}.png`,
-    fallbackImage: `/assets/cards/samples/major-${number}-${slug}.png`
+    image: `/assets/cards/major/major-${assetNumber}-${slug}.png`,
+    fallbackImage: `/assets/cards/samples/major-${assetNumber}-${slug}.png`
   };
 });
+
+const cardWisdom = {
+  "0": {
+    thai: "กล้าเริ่มคือครึ่งหนึ่งของทาง",
+    english: "Look before you leap.",
+    chinese: "千里之行，始于足下"
+  },
+  "01": {
+    thai: "ความพยายามอยู่ที่ไหน ความสำเร็จอยู่ที่นั่น",
+    english: "Practice makes perfect.",
+    chinese: "工欲善其事，必先利其器"
+  },
+  "02": {
+    thai: "น้ำนิ่งไหลลึก",
+    english: "Still waters run deep.",
+    chinese: "知人者智，自知者明"
+  },
+  "03": {
+    thai: "ปลูกสิ่งใด ย่อมได้สิ่งนั้น",
+    english: "You reap what you sow.",
+    chinese: "厚德载物"
+  },
+  "04": {
+    thai: "บ้านเมืองมีขื่อมีแป",
+    english: "Measure twice, cut once.",
+    chinese: "不以规矩，不能成方圆"
+  },
+  "05": {
+    thai: "ครูพักลักจำ",
+    english: "Learn the ropes.",
+    chinese: "温故而知新"
+  },
+  "06": {
+    thai: "ใจที่เลือกชัด ย่อมไม่หลงทางง่าย",
+    english: "Follow your heart.",
+    chinese: "君子和而不同"
+  },
+  "07": {
+    thai: "ความพยายามไม่เคยทรยศใคร",
+    english: "Where there is a will, there is a way.",
+    chinese: "自强不息"
+  },
+  "08": {
+    thai: "อ่อนนอกแข็งใน",
+    english: "Patience is a virtue.",
+    chinese: "柔弱胜刚强"
+  },
+  "09": {
+    thai: "เงียบให้เป็น เย็นให้พอ รอให้ไหว",
+    english: "Silence is golden.",
+    chinese: "静以修身"
+  },
+  "10": {
+    thai: "ช้าเร็วก็ถึงคราว",
+    english: "What goes around comes around.",
+    chinese: "祸兮福所倚，福兮祸所伏"
+  },
+  "11": {
+    thai: "ทำดีได้ดี ทำชั่วได้ชั่ว",
+    english: "Fair and square.",
+    chinese: "公生明，廉生威"
+  },
+  "12": {
+    thai: "พลิกมุมคิด ชีวิตเปลี่ยน",
+    english: "Every cloud has a silver lining.",
+    chinese: "塞翁失马，焉知非福"
+  },
+  "13": {
+    thai: "เก่าไป ใหม่มา",
+    english: "Out with the old, in with the new.",
+    chinese: "旧的不去，新的不来"
+  },
+  "14": {
+    thai: "เดินสายกลาง",
+    english: "Everything in moderation.",
+    chinese: "中庸之道"
+  },
+  "15": {
+    thai: "โลภมากลาภหาย",
+    english: "All that glitters is not gold.",
+    chinese: "知足常乐"
+  },
+  "16": {
+    thai: "พังเพื่อสร้างใหม่",
+    english: "A blessing in disguise.",
+    chinese: "破而后立"
+  },
+  "17": {
+    thai: "ฟ้าหลังฝนย่อมสดใส",
+    english: "Hope springs eternal.",
+    chinese: "守得云开见月明"
+  },
+  "18": {
+    thai: "อย่าไว้ใจทาง อย่าวางใจคน",
+    english: "Things are not always what they seem.",
+    chinese: "兼听则明，偏信则暗"
+  },
+  "19": {
+    thai: "ความจริงเป็นสิ่งไม่ตาย",
+    english: "As clear as day.",
+    chinese: "光明正大"
+  },
+  "20": {
+    thai: "ผิดเป็นครู",
+    english: "Wake up and smell the coffee.",
+    chinese: "知错能改，善莫大焉"
+  },
+  "21": {
+    thai: "ความสำเร็จเริ่มจากก้าวเล็กที่ไม่หยุด",
+    english: "All's well that ends well.",
+    chinese: "有始有终"
+  }
+};
 
 const donationJokes = [
   {
@@ -208,6 +326,31 @@ const footerLang = {
   zh: "zh-Hans"
 };
 
+const arcanaRomanLabels = [
+  "I",
+  "II",
+  "III",
+  "IV",
+  "V",
+  "VI",
+  "VII",
+  "VIII",
+  "IX",
+  "X",
+  "XI",
+  "XII",
+  "XIII",
+  "XIV",
+  "XV",
+  "XVI",
+  "XVII",
+  "XVIII",
+  "XIX",
+  "XX",
+  "XXI",
+  "XXII"
+];
+
 const uiText = {
   th: {
     htmlLang: "th",
@@ -223,8 +366,12 @@ const uiText = {
     deckStatus: "รอเสียงเรียกจากชื่อของคุณ",
     mainReading: "คำทำนายหลัก",
     nearFuture: "อนาคตอันใกล้",
+    tipButton: "ดูคำแนะนำสั้นๆ",
     zoomCard: "ขยายไพ่",
     closeCard: "ปิดภาพไพ่",
+    flipCard: "พลิกไพ่",
+    cardFront: "หน้าไพ่",
+    cardBack: "หลังไพ่",
     aiLoadingTitle: "กำลังรอคำตอบจากผู้มีอำนาจเหนือสายหมอก",
     aiLoadingCopy: () => "ผู้ทำนายกำลังเรียบเรียงคำทำนาย",
     donateTitle: "Support",
@@ -253,8 +400,12 @@ const uiText = {
     deckStatus: "Waiting for your name to call the deck",
     mainReading: "Main reading",
     nearFuture: "Near future",
+    tipButton: "Show a short tip",
     zoomCard: "Zoom card",
     closeCard: "Close card image",
+    flipCard: "Flip card",
+    cardFront: "Card front",
+    cardBack: "Card back",
     aiLoadingTitle: "Awaiting an answer from the authority beyond the mist",
     aiLoadingCopy: () => "The oracle is shaping the reading",
     donateTitle: "Support",
@@ -283,8 +434,12 @@ const uiText = {
     deckStatus: "等待你的名字唤醒牌组",
     mainReading: "主要占卜",
     nearFuture: "近期未来",
+    tipButton: "查看简短提示",
     zoomCard: "放大牌面",
     closeCard: "关闭牌面",
+    flipCard: "翻牌",
+    cardFront: "牌面",
+    cardBack: "牌背",
     aiLoadingTitle: "正在等待雾上权柄的回应",
     aiLoadingCopy: () => "占卜者正在组织讯息",
     donateTitle: "Support",
@@ -303,7 +458,7 @@ const uiText = {
 
 const localizedCardData = {
   en: {
-    "00": { name: "The Fool", essence: "new beginnings" },
+    "0": { name: "The Fool", essence: "new beginnings" },
     "01": { name: "The Magician", essence: "focused action" },
     "02": { name: "The High Priestess", essence: "intuition" },
     "03": { name: "The Empress", essence: "growth" },
@@ -327,7 +482,7 @@ const localizedCardData = {
     "21": { name: "The World", essence: "completion" }
   },
   zh: {
-    "00": { name: "愚者", essence: "新的开始" },
+    "0": { name: "愚者", essence: "新的开始" },
     "01": { name: "魔术师", essence: "行动与显化" },
     "02": { name: "女祭司", essence: "直觉" },
     "03": { name: "皇后", essence: "成长" },
@@ -363,6 +518,26 @@ function getCardText(card, language) {
   return { ...localized, name: englishName, title: englishName };
 }
 
+function getCardWisdom(card) {
+  return cardWisdom[card?.number] ?? cardWisdom["0"];
+}
+
+const wisdomLanguageConfig = {
+  th: { key: "thai", lang: "th" },
+  en: { key: "english", lang: "en" },
+  zh: { key: "chinese", lang: "zh-Hans" }
+};
+
+function getCardWisdomLine(card, language) {
+  const wisdom = getCardWisdom(card);
+  const config = wisdomLanguageConfig[language] ?? wisdomLanguageConfig.th;
+
+  return {
+    ...config,
+    text: wisdom[config.key] || wisdom.thai
+  };
+}
+
 function pickCard(openedCards) {
   const available = tarotDeck.filter((card) => !openedCards.some((reading) => reading.card.number === card.number));
   const pool = available.length ? available : tarotDeck;
@@ -386,9 +561,14 @@ function waitForMinimumDuration(startedAt, duration) {
     : Promise.resolve();
 }
 
+function getArcanaRomanLabel(card) {
+  return arcanaRomanLabels[Number(card?.number)] || "I";
+}
+
 function createReading(card, seeker, sequence, language) {
   const cardText = getCardText(card, language);
   const staticReading = createStaticReading({ card, seeker, sequence, language });
+  const forecasts = staticReading.forecasts;
 
   return {
     id: `${sequence}-${card.number}-${Date.now()}`,
@@ -398,7 +578,8 @@ function createReading(card, seeker, sequence, language) {
     label: sequence === 1 ? uiText[language].mainReading : uiText[language].nearFuture,
     title: `${cardText.name}: ${cardText.essence}`,
     story: staticReading.story,
-    forecasts: staticReading.forecasts
+    tip: staticReading.tip || buildContextualTip({ card, language, story: staticReading.story, forecasts }),
+    forecasts
   };
 }
 
@@ -432,17 +613,21 @@ async function createAiReading(card, seeker, sequence, language) {
         : []
     );
 
+    const story = typeof aiReading.story === "string" && aiReading.story.trim()
+      ? aiReading.story.trim()
+      : localReading.story;
+    const forecasts = localReading.forecasts.map((item) => ({
+      ...item,
+      text: aiForecasts.get(item.key) || item.text
+    }));
+
     return {
       ...localReading,
-      story: typeof aiReading.story === "string" && aiReading.story.trim()
-        ? aiReading.story.trim()
-        : localReading.story,
+      story,
       provider: aiReading.provider,
       model: aiReading.model,
-      forecasts: localReading.forecasts.map((item) => ({
-        ...item,
-        text: aiForecasts.get(item.key) || item.text
-      }))
+      tip: buildContextualTip({ card, language, story, forecasts, tip: aiReading.tip || localReading.tip }),
+      forecasts
     };
   } catch {
     return localReading;
@@ -460,6 +645,20 @@ function TarotFace({ card, imageSrc, language, className = "" }) {
       <div className="arcana-symbol">{card.symbol}</div>
       <div className="card-number">Major Arcana {card.number}</div>
       <div className="card-title">{cardText.title}</div>
+    </div>
+  );
+}
+
+function CardWisdomBack({ card, language, className = "" }) {
+  const wisdomLine = getCardWisdomLine(card, language);
+
+  return (
+    <div className={`card-wisdom-back ${className}`}>
+      <div className="wisdom-lines">
+        <figure className={`wisdom-line is-${wisdomLine.key}`}>
+          <blockquote lang={wisdomLine.lang}>{wisdomLine.text}</blockquote>
+        </figure>
+      </div>
     </div>
   );
 }
@@ -486,6 +685,53 @@ function TarotCard({ card, language, onZoom }) {
         }}
       />
     </button>
+  );
+}
+
+function StoryText({ story }) {
+  const paragraphs = String(story || "")
+    .split(/\n+/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+
+  return (
+    <div className="story">
+      {paragraphs.map((paragraph, index) => (
+        <p key={`${index}-${paragraph.slice(0, 16)}`}>{paragraph}</p>
+      ))}
+    </div>
+  );
+}
+
+function ReadingTip({ reading, language }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const text = uiText[language];
+  const tipId = `reading-tip-${reading.id}`;
+  const tip = String(reading.tip || "").trim();
+  const iconLabel = getArcanaRomanLabel(reading.card);
+
+  if (!tip) {
+    return <p className="reading-label">{reading.label}</p>;
+  }
+
+  return (
+    <div className={`reading-label-row ${isOpen ? "is-tip-open" : ""}`}>
+      <p className="reading-label">{reading.label}</p>
+      <button
+        className="reading-tip-button"
+        type="button"
+        aria-label={`${text.tipButton}: ${reading.label}`}
+        aria-controls={tipId}
+        aria-expanded={isOpen}
+        title={text.tipButton}
+        onClick={() => setIsOpen((current) => !current)}
+      >
+        <span aria-hidden="true">{iconLabel}</span>
+      </button>
+      <p id={tipId} className="reading-tip-bubble" hidden={!isOpen}>
+        {tip}
+      </p>
+    </div>
   );
 }
 
@@ -557,8 +803,11 @@ export default function Home() {
   const [modalCard, setModalCard] = useState(null);
   const [modalImage, setModalImage] = useState("");
   const [modalLanguage, setModalLanguage] = useState("th");
+  const [isModalFlipped, setIsModalFlipped] = useState(false);
   const ritualTimer = useRef();
   const readingListRef = useRef(null);
+  const readingCardRefs = useRef(new Map());
+  const pendingScrollReadingIdRef = useRef(null);
 
   const text = uiText[language];
   const canOpenFuture = readings.length === 1 && !ritual.active && !isReadingPending;
@@ -599,6 +848,7 @@ export default function Home() {
       try {
         const reading = await createAiReading(card, seeker, sequence, language);
         await waitForMinimumDuration(aiCallStartedAt, 1400);
+        pendingScrollReadingIdRef.current = reading.id;
         setReadings((current) => [...current, reading]);
       } finally {
         setIsReadingPending(false);
@@ -609,6 +859,8 @@ export default function Home() {
 
   const resetReading = () => {
     window.clearTimeout(ritualTimer.current);
+    pendingScrollReadingIdRef.current = null;
+    readingCardRefs.current.clear();
     setReadings([]);
     setIsReadingPending(false);
     setPendingCard(null);
@@ -620,18 +872,24 @@ export default function Home() {
     setModalCard(card);
     setModalImage(imageSrc);
     setModalLanguage(cardLanguage);
+    setIsModalFlipped(false);
   };
 
   const closeCardModal = () => {
     setModalCard(null);
     setModalImage("");
     setModalLanguage(language);
+    setIsModalFlipped(false);
   };
 
   const modalAccent = useMemo(() => {
     if (!modalCard) return undefined;
     return `var(--arcana-${Number(modalCard.number) % 6})`;
   }, [modalCard]);
+  const modalCardText = useMemo(() => {
+    if (!modalCard) return null;
+    return getCardText(modalCard, modalLanguage);
+  }, [modalCard, modalLanguage]);
 
   useEffect(() => {
     return () => window.clearTimeout(ritualTimer.current);
@@ -639,8 +897,26 @@ export default function Home() {
 
   useEffect(() => {
     if (readings.length) {
-      readingListRef.current?.lastElementChild?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      const readingId = pendingScrollReadingIdRef.current || readings[readings.length - 1]?.id;
+      const readingElement = readingId
+        ? readingCardRefs.current.get(readingId)
+        : readingListRef.current?.lastElementChild;
+
+      if (!readingElement) return;
+
+      pendingScrollReadingIdRef.current = null;
+      const scrollFrame = window.requestAnimationFrame(() => {
+        readingElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+          inline: "nearest"
+        });
+      });
+
+      return () => window.cancelAnimationFrame(scrollFrame);
     }
+
+    return undefined;
   }, [readings.length]);
 
   useEffect(() => {
@@ -796,6 +1072,13 @@ export default function Home() {
               <article
                 className="reading-card"
                 key={reading.id}
+                ref={(element) => {
+                  if (element) {
+                    readingCardRefs.current.set(reading.id, element);
+                  } else {
+                    readingCardRefs.current.delete(reading.id);
+                  }
+                }}
                 style={{
                   animationDelay: `${Math.min(reading.sequence - 1, 2) * 90}ms`,
                   "--arcana-accent": `var(--arcana-${Number(reading.card.number) % 6})`
@@ -803,9 +1086,9 @@ export default function Home() {
               >
                 <TarotCard card={reading.card} language={reading.language} onZoom={openCardModal} />
                 <div className="reading-copy">
-                  <p className="reading-label">{reading.label}</p>
+                  <ReadingTip reading={reading} language={reading.language} />
                   <h2>{reading.title}</h2>
-                  <p className="story">{reading.story}</p>
+                  <StoryText story={reading.story} />
                   <div className="forecast-grid">
                     {reading.forecasts.map((item) => (
                       <div className="forecast-item" key={item.key}>
@@ -829,10 +1112,25 @@ export default function Home() {
         <div id="card-modal" className="card-modal" aria-labelledby="modal-card-title" aria-modal="true" role="dialog">
           <button className="modal-backdrop" type="button" aria-label={text.closeCard} onClick={closeCardModal}></button>
           <div className="modal-panel">
+            <h2 id="modal-card-title" className="sr-only">{modalCardText?.title}</h2>
             <button id="modal-close" className="modal-close" type="button" aria-label={text.closeCard} onClick={closeCardModal}>x</button>
-            <div className="modal-card-shell protected-card" style={{ "--arcana-accent": modalAccent }}>
-              <TarotFace card={modalCard} imageSrc={modalImage} language={modalLanguage} className="modal-card-face" />
-            </div>
+            <button
+              className={`modal-card-shell protected-card ${isModalFlipped ? "is-flipped" : ""}`}
+              type="button"
+              style={{ "--arcana-accent": modalAccent }}
+              aria-label={`${text.flipCard}: ${modalCardText?.title || ""} (${isModalFlipped ? text.cardBack : text.cardFront})`}
+              aria-pressed={isModalFlipped}
+              onClick={() => setIsModalFlipped((current) => !current)}
+            >
+              <span className="modal-card-inner">
+                <span className="modal-card-side modal-card-front">
+                  <TarotFace card={modalCard} imageSrc={modalImage} language={modalLanguage} className="modal-card-face" />
+                </span>
+                <span className="modal-card-side modal-card-back">
+                  <CardWisdomBack card={modalCard} language={modalLanguage} className="modal-card-face" />
+                </span>
+              </span>
+            </button>
           </div>
         </div>
       )}
