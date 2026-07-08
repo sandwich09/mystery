@@ -20,17 +20,17 @@ const fallbackCategoryKeys = staticCategoryKeys;
 const languageSettings = {
   th: {
     outputLanguage: "Thai",
-    opening: "Start the first paragraph in Thai as '<English card name> คือเรื่องราวของ ...'.",
+    opening: "Start the first paragraph in Thai as the exact English card name followed by ' คือเรื่องราวของ ...'. Do not wrap the card name in angle brackets or add a leading article.",
     scriptRule: "All user-facing JSON values must be Thai, except the exact English tarot card name and the seeker name if it uses another script. Do not write Chinese."
   },
   en: {
     outputLanguage: "English",
-    opening: "Start the first paragraph as '<English card name> is a story of ...'.",
+    opening: "Start the first paragraph as the exact English card name followed by ' is a story of ...'. Do not wrap the card name in angle brackets or add a leading article.",
     scriptRule: "All user-facing JSON values must be English, except the seeker name if it uses another script. Do not write Thai or Chinese."
   },
   zh: {
     outputLanguage: "Simplified Chinese",
-    opening: "Start the first paragraph in Simplified Chinese as '<English card name>是关于……的故事。'.",
+    opening: "Start the first paragraph in Simplified Chinese as the exact English card name followed by '是关于……的故事。'. Do not wrap the card name in angle brackets or add a leading article.",
     scriptRule: "All user-facing JSON values must be Simplified Chinese, except the exact English tarot card name and the seeker name if it uses another script. Do not write Thai."
   }
 };
@@ -147,16 +147,33 @@ function parseJsonText(text) {
   }
 }
 
+function escapeRegExp(text) {
+  return String(text).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function cleanModelText(text, card) {
+  let cleaned = String(text || "").trim().replace(/^\s*<+\s*/, "");
+  const cardName = String(card?.english || "").trim();
+
+  if (!cardName) return cleaned;
+
+  const escapedCardName = escapeRegExp(cardName);
+  const articlePrefix = /^the\s/i.test(cardName) ? "" : "(?:The\\s+)?";
+  const leadingCardPattern = new RegExp(`^${articlePrefix}${escapedCardName}\\s*>?`, "i");
+
+  return cleaned.replace(leadingCardPattern, cardName);
+}
+
 function normalizeReading(data, language, card) {
   if (!data || typeof data.story !== "string" || !Array.isArray(data.forecasts)) {
     throw new Error("Model JSON did not match the reading schema");
   }
 
-  const story = data.story.trim();
+  const story = cleanModelText(data.story, card);
   const forecastMap = new Map(
     data.forecasts
       .filter((item) => item && typeof item.key === "string" && typeof item.text === "string")
-      .map((item) => [item.key, item.text.trim()])
+      .map((item) => [item.key, cleanModelText(item.text, card)])
   );
 
   const forecasts = fallbackCategoryKeys.map((key) => ({
@@ -167,7 +184,7 @@ function normalizeReading(data, language, card) {
 
   const reading = {
     story,
-    tip: buildContextualTip({ card, language, story, forecasts, tip: data.tip }),
+    tip: buildContextualTip({ card, language, story, forecasts, tip: cleanModelText(data.tip, card) }),
     forecasts
   };
 
